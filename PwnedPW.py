@@ -37,6 +37,8 @@ def main():
     for h in possible_hashes:
         if pw_hash_array[1].upper() == h[0]:
             print(f"Password found as hash {pw_hash_array[0] + pw_hash_array[1]}\nOccurrences: {h[1]}")
+            exit()
+    print("Password not found.")
 
 
 main()
