@@ -3,6 +3,6 @@ cffi==1.15.0
 chardet==4.0.0
 idna==3.3
 pycparser==2.21
-requests==2.26.0
+requests==2.27.1
 six==1.16.0
 urllib3==1.26.7
