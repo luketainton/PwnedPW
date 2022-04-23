@@ -46,7 +46,7 @@ def main():
     password = getpass.getpass()
     # Run check
     result = check(password)
-    if type(result) == tuple and result[0]:
+    if isinstance(result, tuple) and result[0]:
         print(f"Password found as hash {result[1]}")
         print(f"Occurrences: {result[2]}")
     else:
