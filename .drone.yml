@@ -1,0 +1,17 @@
+---
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: lint
+  image: osshelp/drone-linter
+  settings:
+    skip_yml: true
+    skip_sh: true
+    skip_dockerfile: true
+    skip_markdown: true
+    skip_python: false
+    skip_json: true
+
+...
