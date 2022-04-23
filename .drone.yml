@@ -14,4 +14,10 @@ steps:
     skip_python: false
     skip_json: true
 
+- name: test
+  image: python
+  commands:
+  - pip install -r requirements.txt
+  - pytest
+
 ...

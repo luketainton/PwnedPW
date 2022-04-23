@@ -3,7 +3,6 @@
 
 import requests
 import hashlib
-import json
 import getpass
 
 
@@ -25,20 +24,30 @@ def get_pwned_hashes(api_param):
     return returned_hashes
 
 
-def main():
-    """Main function"""
-    # Get password
-    pw = getpass.getpass()
+def check(password: str) -> tuple:
     # Get the split hash of the password
-    pw_hash_array = hash_password(pw)
+    pw_hash_array = hash_password(password)
     # Send first 5 chars to API to retrieve matching hashes
     possible_hashes = get_pwned_hashes(pw_hash_array[0])
     # For each hash, test for a match
     for h in possible_hashes:
         if pw_hash_array[1].upper() == h[0]:
-            print(f"Password found as hash {pw_hash_array[0] + pw_hash_array[1]}\nOccurrences: {h[1]}")
-            exit()
-    print("Password not found.")
+            identified_hash = pw_hash_array[0] + pw_hash_array[1]
+            occurences = h[1]
+            return (True, identified_hash, occurences)
+    return (False)
 
 
-main()
+def main():
+    """Main function"""
+    # Get password
+    pw = getpass.getpass()
+    # Run check
+    result = check(pw)
+    if result[0]:
+        print(f"Password found as hash {result[1]}")
+        print(f"Occurrences: {result[2]}")
+
+
+if __name__ == "__main__":
+    main()
