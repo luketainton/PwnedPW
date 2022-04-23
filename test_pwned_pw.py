@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PwnedPW import check
+from pwned_pw import check
 
 def test_answer():
     password = "hello"

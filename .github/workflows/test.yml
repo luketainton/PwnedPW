@@ -19,8 +19,7 @@ jobs:
         run: pip install -r requirements.txt
       
       - name: Lint
-        continue-on-error: true
-        run: pylint PwnedPW.py
+        run: pylint pwned_pw.py
       
       - name: Run test suite
         run: pytest
