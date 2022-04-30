@@ -25,4 +25,4 @@ def test_check_common_password():
 def test_check_uncommon_password():
     """Test case for check() with uncommon password."""
     result = check("tjzdp6eguZ9q4puPAiXWc6NM")
-    assert result[0] is False  # Password was not found
+    assert result is False  # Password was not found
