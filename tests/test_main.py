@@ -2,7 +2,7 @@
 
 """Test cases for pwned_pw.py."""
 
-from app.pwned_pw import hash_password, check
+from app.main import hash_password, check
 
 
 PASSWORD = "hello"
