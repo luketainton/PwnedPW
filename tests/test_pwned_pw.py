@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
 
+"""Test cases for pwned_pw.py."""
+
 from app.pwned_pw import hash_password, check
 
 
-password = "hello"
-expected_hash = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
+PASSWORD = "hello"
+EXPECTED_HASH = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"
 
 
 def test_hash_password():
-    result = hash_password(password)
-    assert result == (expected_hash[:5], expected_hash[5:])
+    """Test case for hash_password()."""
+    result = hash_password(PASSWORD)
+    assert result == (EXPECTED_HASH[:5], EXPECTED_HASH[5:])
 
 
-def test_answer():
-    password = "hello"
-    result = check(password)
-    assert result[0] == True  # Password was found
-    assert result[1] == expected_hash  # Hash is correct
+def test_check():
+    """Test case for check()."""
+    result = check(PASSWORD)
+    assert result[0] is True  # Password was found
+    assert result[1] == EXPECTED_HASH  # Hash is correct
