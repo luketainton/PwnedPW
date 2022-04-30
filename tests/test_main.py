@@ -15,8 +15,14 @@ def test_hash_password():
     assert result == (EXPECTED_HASH[:5], EXPECTED_HASH[5:])
 
 
-def test_check():
-    """Test case for check()."""
+def test_check_common_password():
+    """Test case for check() with common password."""
     result = check(PASSWORD)
     assert result[0] is True  # Password was found
     assert result[1] == EXPECTED_HASH  # Hash is correct
+
+
+def test_check_uncommon_password():
+    """Test case for check() with uncommon password."""
+    result = check("tjzdp6eguZ9q4puPAiXWc6NM")
+    assert result[0] is False  # Password was not found

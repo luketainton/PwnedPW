@@ -25,7 +25,7 @@ def get_pwned_hashes(api_param) -> list:
     return returned_hashes
 
 
-def check(password: str):
+def check(password: str) -> tuple:
     """Run password check"""
     # Get the split hash of the password
     pw_hash_array = hash_password(password)
@@ -40,7 +40,7 @@ def check(password: str):
     return False
 
 
-def main():
+def main() -> None:  # pragma: no cover
     """Main function"""
     # Get password
     password = getpass.getpass()
