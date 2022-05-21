@@ -4,7 +4,7 @@ certifi==2021.10.8
 cffi==1.15.0
 chardet==4.0.0
 charset-normalizer==2.0.12
-dill==0.3.4
+dill==0.3.5.1
 idna==3.3
 iniconfig==1.1.1
 isort==5.10.1
