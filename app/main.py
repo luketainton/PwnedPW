@@ -2,11 +2,11 @@
 
 """Checks if a password has been leaked."""
 
+from typing import Union
+
 import getpass
 import hashlib
 import requests
-
-from typing import Union
 
 
 def hash_password(pw_in) -> tuple:
