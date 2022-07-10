@@ -1,12 +1,12 @@
 name: CI
 on:
-  workflow_dispatch:
-  push:
+  pull_request:
     paths-ignore:
       - 'README.md'
       - 'LICENSE.md'
       - '.gitignore'
-  pull_request:
+      - 'CODEOWNERS'
+      - 'renovate.json'
 
 jobs:
   # analyze:
@@ -49,7 +49,7 @@ jobs:
           coverage xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
-      - name: Report test coverage to DeepSource
+      - name: Upload Coverage to DeepSource
         uses: deepsourcelabs/test-coverage-action@master
         with:
           key: python
