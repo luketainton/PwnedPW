@@ -6,6 +6,8 @@ import getpass
 import hashlib
 import requests
 
+from typing import Union
+
 
 def hash_password(pw_in) -> tuple:
     """Take password as input, hash it in SHA-1, and split it for use later on"""
@@ -25,7 +27,7 @@ def get_pwned_hashes(api_param) -> list:
     return returned_hashes
 
 
-def check(password: str) -> tuple:
+def check(password: str) -> Union[tuple, bool]:
     """Run password check"""
     # Get the split hash of the password
     pw_hash_array = hash_password(password)
