@@ -20,7 +20,7 @@ jobs:
         run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Run test suite
         run: |
-          coverage run -m py.test -v
+          coverage run -m py.test -v --junitxml=testresults.xml
           coverage xml
       - uses: sonarsource/sonarqube-scan-action@master
         env:
