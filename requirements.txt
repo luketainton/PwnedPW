@@ -2,7 +2,7 @@ astroid==2.11.6
 attrs==21.4.0
 certifi==2022.6.15
 cffi==1.15.0
-chardet==4.0.0
+chardet==5.0.0
 charset-normalizer==2.0.12
 dill==0.3.5.1
 idna==3.3
