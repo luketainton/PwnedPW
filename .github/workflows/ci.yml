@@ -9,42 +9,28 @@ on:
   pull_request:
 
 jobs:
-  skip_duplicate:
-    runs-on: ubuntu-latest
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@v4.0.0
-        with:
-          github_token: ${{ github.token }}
+  # analyze:
+  #   name: Analyze
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     actions: read
+  #     contents: read
+  #     security-events: write
+  #   strategy:
+  #     fail-fast: false
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
+  #     - name: Initialize CodeQL
+  #       uses: github/codeql-action/init@v2
+  #       with:
+  #         languages: python
+  #     - name: Autobuild
+  #       uses: github/codeql-action/autobuild@v2
+  #     - name: Perform CodeQL Analysis
+  #       uses: github/codeql-action/analyze@v2
 
-  analyze:
-    name: Analyze
-    needs: skip_duplicate
-    if: ${{ needs.skip_duplicate.outputs.should_skip == 'false' }}
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v2
-        with:
-          languages: python
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
-
-  lint:
-    needs: skip_duplicate
-    if: ${{ needs.skip_duplicate.outputs.should_skip == 'false' }}
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -57,24 +43,15 @@ jobs:
         run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Lint
         run: pylint --recursive=yes .
-
-  test:
-    needs: skip_duplicate
-    if: ${{ needs.skip_duplicate.outputs.should_skip == 'false' }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ '3.10' ]
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install dependencies
-        run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Run test suite
-        run: coverage run -m py.test -v
+        run: |
+          coverage run -m py.test -v
+          coverage xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
+      - name: Report test coverage to DeepSource
+        uses: deepsourcelabs/test-coverage-action@master
+        with:
+          key: python
+          coverage-file: coverage.xml
+          dsn: ${{ secrets.DEEPSOURCE_DSN }}
