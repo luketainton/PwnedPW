@@ -28,8 +28,8 @@ jobs:
         run: |
           coverage run -m py.test -v
           coverage xml
-      - name: Upload Coverage to Codecov
-        uses: codecov/codecov-action@v3
+#      - name: Upload Coverage to Codecov
+#        uses: codecov/codecov-action@v3
       - name: Report results to DeepSource
         run: |
           curl https://deepsource.io/cli | sh
