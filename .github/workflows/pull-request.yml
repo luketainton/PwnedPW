@@ -35,6 +35,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -49,9 +51,9 @@ jobs:
           coverage xml
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v3
-      - name: Upload Coverage to DeepSource
-        uses: deepsourcelabs/test-coverage-action@master
-        with:
-          key: python
-          coverage-file: coverage.xml
-          dsn: ${{ secrets.DEEPSOURCE_DSN }}
+      - name: Report results to DeepSource
+        run: |
+          curl https://deepsource.io/cli | sh
+          ./bin/deepsource report --analyzer test-coverage --key python --value-file ./coverage.xml
+        env:
+          DEEPSOURCE_DSN: ${{ secrets.DEEPSOURCE_DSN }}
