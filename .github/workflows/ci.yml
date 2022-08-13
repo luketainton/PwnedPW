@@ -27,15 +27,15 @@ jobs:
         run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Lint
         run: pylint --recursive=yes --output-format=parseable --output=lintreport.txt .
-      - name: Run test suite
+      - name: Unit Test
         run: |
           coverage run -m py.test -v --junitxml=testresults.xml
           coverage xml
       - name: SonarCloud Scan
-      uses: SonarSource/sonarcloud-github-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLOUD }}
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLOUD }}
       # - uses: sonarsource/sonarqube-scan-action@master
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
