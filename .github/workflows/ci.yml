@@ -1,6 +1,9 @@
 name: CI
 on:
+  push:
+    branches: [ main ]
   pull_request:
+    types: [opened, synchronize, reopened]
     paths-ignore:
       - 'README.md'
       - 'LICENSE.md'
@@ -15,7 +18,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -25,15 +27,20 @@ jobs:
         run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Lint
         run: pylint --recursive=yes --output-format=parseable --output=lintreport.txt .
-      - name: Run test suite
+      - name: Unit Test
         run: |
           coverage run -m py.test -v --junitxml=testresults.xml
           coverage xml
-      - uses: sonarsource/sonarqube-scan-action@master
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-      - uses: sonarsource/sonarqube-quality-gate-action@master
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLOUD }}
+      # - uses: sonarsource/sonarqube-scan-action@master
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #     SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      # - uses: sonarsource/sonarqube-quality-gate-action@master
+      #   timeout-minutes: 5
+      #   env:
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
