@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt && pip install -r requirements-dev.txt
       - name: Lint
-        run: pylint --recursive=yes --output-format=parseable --output=lintreport.txt .
+        run: pylint --recursive=yes --output-format=parseable --output=lintreport.txt . || pylint-exit $?
       - name: Unit Test
         run: |
           coverage run -m py.test -v --junitxml=testresults.xml
