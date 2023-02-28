@@ -13,7 +13,10 @@ on:
 
 jobs:
   ci:
-    uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
+    - uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
+      with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          sonar_token: ${{secrets.SONAR_TOKEN_CLOUD}}
 
 # jobs:
 #   ci:
