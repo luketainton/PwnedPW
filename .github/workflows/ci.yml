@@ -23,7 +23,7 @@ jobs:
         - name: Print inputs passed to the reusable workflow
           id: step1
           run: |
-            echo "::set-output name=sonar_token::$SONAR_TOKEN"
+            echo "sonar_token=$SONAR_TOKEN" >> $GITHUB_OUTPUT
 
   ci:
     needs:
