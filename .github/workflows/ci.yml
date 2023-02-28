@@ -13,10 +13,11 @@ on:
 
 jobs:
   ci:
+    runs-on: ubuntu-latest
+    steps:
     - uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
       with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          sonar_token: ${{secrets.SONAR_TOKEN_CLOUD}}
+          sonar_token: ${{ secrets.SONAR_TOKEN_CLOUD }}
 
 # jobs:
 #   ci:
