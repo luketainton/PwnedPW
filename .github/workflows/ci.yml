@@ -11,13 +11,26 @@ on:
       - 'CODEOWNERS'
       - 'renovate.json'
 
+env:
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 jobs:
+  variables:
+      runs-on: ubuntu-latest
+      outputs:
+        sonar_token: ${{ steps.step1.outputs.some_var }}
+      steps:
+        - name: Print inputs passed to the reusable workflow
+          id: step1
+          run: |
+            echo "::set-output name=sonar_token::$SONAR_TOKEN"
+
   ci:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
-      with:
-          sonar_token: ${{ secrets.SONAR_TOKEN_CLOUD }}
+    needs:
+      - variables
+    uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
+    with:
+      sonar_token: ${{ needs.variables.outputs.sonar_token }}
 
 # jobs:
 #   ci:
