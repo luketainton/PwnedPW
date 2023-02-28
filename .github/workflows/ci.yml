@@ -13,26 +13,6 @@ on:
 
 jobs:
   ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
-      - name: Install dependencies
-        run: pip install -r requirements.txt && pip install -r requirements-dev.txt
-      - name: Lint
-        run: pylint --recursive=yes --output-format=parseable --output=lintreport.txt . || pylint-exit $?
-      - name: Unit Test
-        run: |
-          coverage run -m py.test -v --junitxml=testresults.xml
-          coverage xml
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_CLOUD }}
+    uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
