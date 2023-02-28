@@ -11,19 +11,16 @@ on:
       - 'CODEOWNERS'
       - 'renovate.json'
 
-env:
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
 jobs:
   variables:
       runs-on: ubuntu-latest
       outputs:
-        sonar_token: ${{ steps.step1.outputs.some_var }}
+        sonar_token: ${{ steps.variables.outputs.sonar_token }}
       steps:
         - name: Print inputs passed to the reusable workflow
-          id: step1
+          id: variables
           run: |
-            echo "sonar_token=$SONAR_TOKEN" >> $GITHUB_OUTPUT
+            echo "sonar_token=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_OUTPUT
 
   ci:
     needs:
