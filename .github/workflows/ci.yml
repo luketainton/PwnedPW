@@ -12,22 +12,20 @@ on:
       - 'renovate.json'
 
 jobs:
-  variables:
-      runs-on: ubuntu-latest
-      outputs:
-        sonar_token: ${{ steps.variables.outputs.sonar_token }}
-      steps:
-        - name: Print inputs passed to the reusable workflow
-          id: variables
-          run: |
-            echo "sonar_token=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_OUTPUT
+  # variables:
+  #     runs-on: ubuntu-latest
+  #     outputs:
+  #       sonar_token: ${{ steps.variables.outputs.sonar_token }}
+  #     steps:
+  #       - name: Print inputs passed to the reusable workflow
+  #         id: variables
+  #         run: |
+  #           echo "sonar_token=${{ secrets.SONAR_TOKEN }}" >> $GITHUB_OUTPUT
 
   ci:
-    needs:
-      - variables
     uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
-    with:
-      sonar_token: ${{ needs.variables.outputs.sonar_token }}
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 # jobs:
 #   ci:
