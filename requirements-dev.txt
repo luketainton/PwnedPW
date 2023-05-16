@@ -3,3 +3,4 @@ coverage
 pylint
 pylint-exit
 pytest
+ruff
