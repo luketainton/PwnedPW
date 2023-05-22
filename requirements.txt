@@ -18,7 +18,7 @@ platformdirs==3.5.1
 pluggy==1.0.0
 pycparser==2.21
 pyparsing==3.0.9
-requests==2.30.0
+requests==2.31.0
 six==1.16.0
 tomli==2.0.1
 tomlkit==0.11.8
