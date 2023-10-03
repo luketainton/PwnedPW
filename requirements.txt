@@ -1,4 +1,4 @@
-astroid==2.15.8
+astroid==3.0.0
 attrs==23.1.0
 certifi==2023.7.22
 cffi==1.16.0
