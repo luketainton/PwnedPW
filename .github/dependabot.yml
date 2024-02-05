@@ -1,0 +1,44 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "luketainton"
+    reviewers:
+      - "luketainton"
+    commit-message:
+      prefix: "chore(actions)"
+      include: "scope"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "luketainton"
+    reviewers:
+      - "luketainton"
+    commit-message:
+      prefix: "chore(docker)"
+      include: "scope"
+    labels:
+      - "dependencies"
+
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    assignees:
+      - "luketainton"
+    reviewers:
+      - "luketainton"
+    commit-message:
+      prefix: "chore(pip-prod)"
+      prefix-development: "chore(pip-dev)"
+      include: "scope"
+    labels:
+      - "dependencies"
