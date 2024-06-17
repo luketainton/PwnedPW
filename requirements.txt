@@ -22,5 +22,5 @@ requests==2.32.3
 six==1.16.0
 tomli==2.0.1
 tomlkit==0.12.5
-urllib3==2.2.1
+urllib3==2.2.2
 wrapt==1.16.0
