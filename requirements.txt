@@ -24,3 +24,4 @@ tomli==2.0.1
 tomlkit==0.12.5
 urllib3==2.2.2
 wrapt==1.16.0
+zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
