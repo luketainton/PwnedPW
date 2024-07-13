@@ -1,0 +1,10 @@
+name: Release
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * *"
+
+jobs:
+  create_release:
+    name: Create Release
+    uses: luketainton/gha-workflows/.github/workflows/create-release.yml@main
