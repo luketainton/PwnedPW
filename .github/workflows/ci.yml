@@ -1,15 +1,14 @@
 name: CI
 on:
-  push:
-    branches: [ main ]
   pull_request:
     types: [opened, synchronize, reopened]
     paths-ignore:
-      - 'README.md'
-      - 'LICENSE.md'
-      - '.gitignore'
-      - 'CODEOWNERS'
-      - 'renovate.json'
+      - "README.md"
+      - "LICENSE.md"
+      - ".gitignore"
+      - ".github/CODEOWNERS"
+      - ".github/renovate.json"
+      - ".github/dependabot.yml"
 
 jobs:
   ci:
