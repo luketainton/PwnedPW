@@ -22,6 +22,6 @@ requests==2.32.3
 six==1.16.0
 tomli==2.0.1
 tomlkit==0.13.2
-urllib3==2.2.2
+urllib3==2.2.3
 wrapt==1.16.0
 zipp>=3.19.1 # not directly required, pinned by Snyk to avoid a vulnerability
