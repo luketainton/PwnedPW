@@ -6,8 +6,8 @@ updates:
       interval: "daily"
     assignees:
       - "luketainton"
-    reviewers:
-      - "luketainton"
+    # reviewers:
+    #   - "luketainton"
     commit-message:
       prefix: "chore(actions)"
       include: "scope"
@@ -20,8 +20,8 @@ updates:
       interval: "daily"
     assignees:
       - "luketainton"
-    reviewers:
-      - "luketainton"
+    # reviewers:
+    #   - "luketainton"
     commit-message:
       prefix: "chore(docker)"
       include: "scope"
@@ -34,8 +34,8 @@ updates:
       interval: "daily"
     assignees:
       - "luketainton"
-    reviewers:
-      - "luketainton"
+    # reviewers:
+    #   - "luketainton"
     commit-message:
       prefix: "chore(pip-prod)"
       prefix-development: "chore(pip-dev)"
