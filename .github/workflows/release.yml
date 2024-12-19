@@ -5,6 +5,14 @@ on:
     - cron: "0 9 * * 0"
 
 jobs:
+  test:
+    uses: luketainton/gha-workflows/.github/workflows/ci-python-poetry.yml@main
+    with:
+      python-version: 3.11
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
   create_release:
     name: Create Release
     uses: luketainton/gha-workflows/.github/workflows/create-release.yml@main
