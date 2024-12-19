@@ -12,7 +12,9 @@ on:
 
 jobs:
   ci:
-    uses: luketainton/gha-workflows/.github/workflows/ci-python.yml@main
+    uses: luketainton/gha-workflows/.github/workflows/ci-python-poetry.yml@main
+    with:
+      python-version: 3.11
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}

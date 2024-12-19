@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "pwnedpw"
+version = "0.0.0"
+description = "Checks if your password has been leaked."
+authors = ["Luke Tainton <luke@tainton.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.10.0"
+coverage = "^7.6.9"
+pylint = "^3.3.2"
+pylint-exit = "^1.2.0"
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
