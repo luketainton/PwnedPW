@@ -10,7 +10,7 @@ python = "^3.11"
 requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
-black = "^24.10.0"
+black = "^25.1.0"
 coverage = "^7.6.10"
 pylint = "^3.3.3"
 pylint-exit = "^1.2.0"
