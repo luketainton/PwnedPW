@@ -8,8 +8,8 @@ on:
       - synchronize
       - reopened
 
-env:
-  PATH: ${{ env.PATH }}:/root/.poetry/bin
+# env:
+#   PATH: ${{ env.PATH }}:/root/.poetry/bin
 
 jobs:
   ci:
