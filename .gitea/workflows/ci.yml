@@ -41,7 +41,7 @@ jobs:
           restore-keys: venv-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install
+        run: poetry install --no-root
 
       - name: Lint
         run: poetry run pylint --fail-under=8 --recursive=yes --output-format=parseable --output=lintreport.txt .
