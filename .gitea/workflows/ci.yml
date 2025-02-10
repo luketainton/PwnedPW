@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+
+env:
+  PATH: ${{ env.PATH }}:/root/.poetry/bin
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v4
+
+      - name: Setup virtual environment
+        run: |
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
+
+      - uses: actions/cache@v4
+        name: Define cache for dependencies
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
+          restore-keys: venv-${{ hashFiles('poetry.lock') }}
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Lint
+        run: poetry run pylint --fail-under=8 --recursive=yes --output-format=parseable --output=lintreport.txt .
+
+      - name: Unit Test
+        run: |
+          poetry run coverage run -m pytest -v --junitxml=testresults.xml
+          poetry run coverage xml
+          sed -i 's@${{ github.workspace }}@/github/workspace@g' coverage.xml
+
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarqube-scan-action@v4.2.1
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONARQUBE_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+
+      - name: Snyk Vulnerability Scan
+        uses: snyk/actions/python@master
+        continue-on-error: true # Sometimes vulns aren't immediately fixable
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: test --all-projects

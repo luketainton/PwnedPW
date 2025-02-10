@@ -1,0 +1,18 @@
+name: Build Docker
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  create_docker:
+    name: Create Docker Image
+    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/build-push-docker.yml@main
+    with:
+      release: ${{ gitea.event.release.name }}
+      registry: ${{ vars.PACKAGES_REGISTRY_URL }}
+      actions_username: ${{ vars.ACTIONS_USERNAME }}
+      ghcr_username: ${{ vars.GHCR_USERNAME }}
+    secrets:
+      ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
