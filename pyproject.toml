@@ -13,7 +13,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "black<25.0.0,>=24.10.0",
+    "black<25.2.0,>=25.1.0",
     "coverage<8.0.0,>=7.6.10",
     "pylint<4.0.0,>=3.3.3",
     "pylint-exit<2.0.0,>=1.2.0",
