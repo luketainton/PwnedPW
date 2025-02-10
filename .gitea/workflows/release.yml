@@ -5,9 +5,9 @@ on:
     - cron: "0 9 * * 0"
 
 jobs:
-  test:
-    name: Test
-    uses: https://git.tainton.uk/repos/PwnedPW/.gitea/workflows/ci.yml@main
+  # test:
+    # name: Test
+    # uses: https://git.tainton.uk/repos/PwnedPW/.gitea/workflows/ci.yml@main
 
   create_release:
     name: Create Release
