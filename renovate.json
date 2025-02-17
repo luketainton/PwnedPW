@@ -4,8 +4,8 @@
   ],
   "platformCommit": "enabled",
   "dependencyDashboardAutoclose": true,
-  "assignAutomerge": true,
-  "assigneesFromCodeOwners": true,
+  "assignAutomerge": false,
+  "assigneesFromCodeOwners": false,
   "rebaseWhen": "behind-base-branch",
   "rollbackPrs": true,
   "labels": [
