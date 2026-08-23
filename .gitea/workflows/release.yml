@@ -19,9 +19,80 @@ jobs:
     secrets:
       ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
 
-  print_release:
-    name: Print Release
+  create_docker:
+    name: Publish Docker Images
     runs-on: ubuntu-latest
-    needs: create_release
+    needs: [tag, create_release]
     steps:
-      - run: echo "Created release ${{ needs.tag.outputs.tag_name }}."
+      - name: Update Docker configuration
+        continue-on-error: true
+        run: |
+          mkdir -p /etc/default
+          mkdir -p /etc/docker
+          touch -a /etc/default/docker
+          touch -a /etc/docker/daemon.json
+          echo "DOCKER_OPTS=\"--insecure-registry ${{ vars.PACKAGES_REGISTRY_URL }}\"" >> /etc/default/docker
+          echo "{\"insecure-registries\": [\"${{ vars.PACKAGES_REGISTRY_URL }}\"]}" > /etc/docker/daemon.json
+
+      - name: Get repo name
+        id: split
+        run: echo "repo=${REPO##*/}" >> "$GITEA_OUTPUT"
+        env:
+          REPO: ${{ gitea.repository }}
+
+      - name: Check out repository
+        uses: actions/checkout@v6.0.2
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.tag.outputs.tag_name }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Gitea Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ vars.PACKAGES_REGISTRY_URL }}
+          username: ${{ vars.ACTIONS_USERNAME }}
+          password: ${{ secrets.ACTIONS_TOKEN }}
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ vars.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          tags: type=semver,pattern=v{{version}},value=${{ needs.tag.outputs.tag_name }}
+          images: |
+            ghcr.io/${{ vars.GHCR_USERNAME }}/${{ steps.split.outputs.repo }}
+            ${{ vars.PACKAGES_REGISTRY_URL }}/${{ gitea.repository }}
+
+      - name: Print metadata
+        run: |
+          printf "Annotations:\n${{ steps.meta.outputs.annotations }}"
+          echo ""
+          printf "Labels:\n${{ steps.meta.outputs.labels }}"
+          echo ""
+          printf "Tags:\n${{ steps.meta.outputs.tags }}"
+
+      - name: Build images
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: true
+          annotations: ${{ steps.meta.outputs.annotations }}
+          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+
+      - name: Push images
+        run: |
+          strtags="${{ steps.meta.outputs.tags }}"
+          readarray -t lines <<<"$strtags"
+          for element in "${lines[@]}"; do docker push "$element"; done
+          unset strtags lines
