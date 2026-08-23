@@ -11,6 +11,6 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: https://git.tainton.uk/actions/conventional-commits-check-action@v1.3.1
+      - uses: https://git.tainton.uk/actions/conventional-commits-check-action@v1.3.2
         with:
           commit-message: ${{ gitea.event.pull_request.title }}
