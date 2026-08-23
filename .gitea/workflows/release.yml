@@ -5,16 +5,36 @@ on:
     - cron: "0 9 * * 0"
 
 jobs:
-  # test:
-    # name: Test
-    # uses: https://git.tainton.uk/repos/PwnedPW/.gitea/workflows/ci.yml@main
+  tag:
+    name: Tag release
+    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/release-with-tag.yaml@main
 
   create_release:
     name: Create Release
-    # needs: test
-    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/create-release.yml@main
-    secrets:
-      ACTIONS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+    needs: tag
+    runs-on: ubuntu-latest
+    outputs:
+      release_name: ${{ steps.release.outputs.release_name }}
+    steps:
+      - name: Create release
+        id: release
+        env:
+          TAG_NAME: ${{ needs.tag.outputs.tag_name }}
+          RELEASE_BODY: ${{ needs.tag.outputs.changelog }}
+          API_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        run: |
+          payload=$(jq -n \
+            --arg tag_name "$TAG_NAME" \
+            --arg name "$TAG_NAME" \
+            --arg body "$RELEASE_BODY" \
+            '{tag_name: $tag_name, name: $name, body: $body}')
+          curl --fail-with-body --silent --show-error --request POST \
+            -H "Authorization: token $API_TOKEN" \
+            -H "accept: application/json" \
+            -H "Content-Type: application/json" \
+            --data "$payload" \
+            "${{ gitea.server_url }}/api/v1/repos/${{ gitea.repository }}/releases"
+          echo "release_name=$TAG_NAME" >> "$GITEA_OUTPUT"
 
   print_release:
     name: Print Release
