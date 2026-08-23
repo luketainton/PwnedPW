@@ -7,7 +7,7 @@ on:
 jobs:
   create_docker:
     name: Create Docker Image
-    uses: https://git.tainton.uk/actions/gha-workflows/.gitea/workflows/build-push-docker.yml@main
+    uses: actions/gha-workflows/.gitea/workflows/build-push-docker.yml@main
     with:
       release: ${{ gitea.event.release.name }}
       registry: ${{ vars.PACKAGES_REGISTRY_URL }}
