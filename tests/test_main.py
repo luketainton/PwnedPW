@@ -1,9 +1,6 @@
-#!/usr/bin/env python3
-
 """Test cases for pwned_pw.py."""
 
-from app.main import hash_password, check
-
+from app.main import check, hash_password
 
 PASSWORD = "hello"
 EXPECTED_HASH = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d"

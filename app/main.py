@@ -2,10 +2,9 @@
 
 """Checks if a password has been leaked."""
 
-from typing import Union
-
 import getpass
 import hashlib
+
 import requests
 
 
@@ -27,7 +26,7 @@ def get_pwned_hashes(api_param) -> list:
     return returned_hashes
 
 
-def check(password: str) -> Union[tuple, bool]:
+def check(password: str) -> tuple | bool:
     """Run password check"""
     # Get the split hash of the password
     pw_hash_array = hash_password(password)
